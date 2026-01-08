@@ -30,7 +30,8 @@ public class KafkaProducer {
 
         var options = SenderOptions.<String, String>create(producerConfig);
 
-        var flux = Flux.range(1, 10).map(KafkaProducer::createSenderRecord);
+        var flux = Flux.range(1, 10)
+                .map(KafkaProducer::createSenderRecord);
 
         var sender = KafkaSender.create(options);
         sender.send(flux)
@@ -44,7 +45,7 @@ public class KafkaProducer {
         headers.add("client-id", "some-client".getBytes());
         headers.add("tracing-id", "123".getBytes());
         var pr = new ProducerRecord<>("order-events", null, i.toString(), "order-"+i, headers);
-        return SenderRecord.create(pr, pr.key());
+        return SenderRecord.create(pr, "kkk:"+pr.key());
     }
 
 }

@@ -30,8 +30,8 @@ public class KafkaProducer {
 
         var options = SenderOptions.<String, String>create(producerConfig);
 
-        var flux = Flux.interval(Duration.ofMillis(100))
-                    .take(100)
+        var flux = Flux.interval(Duration.ofMillis(1000)) // produce in every 100 ms
+                    .take(20)
                     .map(i -> new ProducerRecord<>("order-events", i.toString(), "order-"+i))
                     .map(pr -> SenderRecord.create(pr, pr.key()));
 

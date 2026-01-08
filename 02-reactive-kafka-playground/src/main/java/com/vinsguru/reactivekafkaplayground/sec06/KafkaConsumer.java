@@ -27,18 +27,11 @@ public class KafkaConsumer {
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
                 ConsumerConfig.GROUP_ID_CONFIG, "demo-group-123",
                 ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest",
-                ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, instanceId//,
-             //   ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, RangeAssignorCooperativeStickyAssignor.class.getName()
+                ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, instanceId,
+                ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName()
         );
 
         var options = ReceiverOptions.create(consumerConfig)
-                                     .addAssignListener(c -> {
-                                         c.forEach(r -> log.info("assigned {}", r.position()));
-                                         c.stream()
-                                          .filter(r -> r.topicPartition().partition() == 2)
-                                          .findFirst()
-                                          .ifPresent(r -> r.seek(r.position() - 2));  // seek value can not be -ve. ensure before setting
-                                     })
                 .subscription(List.of("order-events"));
 
         KafkaReceiver.create(options)
