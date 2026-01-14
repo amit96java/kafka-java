@@ -3,7 +3,7 @@
 ## sec01
 ### lec 44 
 
-    (groud id and member id)
+    (group id and member id)
 
     if member id is not same than kafka wait for 45 sec and than share the message to 
     consumer with new member id
@@ -24,5 +24,17 @@
 
 ### lec 62
 
-    
+
+## sec10
+
+### lec 82
+
+    flat map for parallel processing
+    in flat map we have issue of message unordering
+
+### lec 81
+
+    concatMap --------------------------- Sequential Batch Processing
+    flatMap   --------------------------- parallel Batch Processing
+    groupBy + flatMap ------------------- Parallel Batch Processing with message ordering
 
