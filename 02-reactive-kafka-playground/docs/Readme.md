@@ -24,6 +24,11 @@
 
 ### lec 62
 
+### lec 70 and 71
+
+    producer sends data for kafka server and kafka server returns acknowledgement about we have
+    received the data, and there are types of acknowledgement.
+    
 
 ## sec10
 
