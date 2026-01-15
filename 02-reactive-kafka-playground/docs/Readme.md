@@ -43,3 +43,20 @@
     flatMap   --------------------------- parallel Batch Processing
     groupBy + flatMap ------------------- Parallel Batch Processing with message ordering
 
+
+## sec12 (error handling)
+
+### lec 89
+
+    when error occurred than downstream emit signal of cancel and upstream than stop the pipeline.
+    we need to handle so that upstream don't stop the pipeline.
+
+    KafkaConsumerV1 : during retry it again make connection with kafka server , because in the same flux pipeline
+    error occurred and it emit cancel signal to same flux, so as solution we need to process the another flux
+    so when error occurred than cancel signal don't reach to main flux which coming from kafka server.
+
+### lec 94
+
+    KafkaConsumerV3 : retry based on exception type, let's suppose database is down , then in this case we want it should retry until
+    database is not up.
+

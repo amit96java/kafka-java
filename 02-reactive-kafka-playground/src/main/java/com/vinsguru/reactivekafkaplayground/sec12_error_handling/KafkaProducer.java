@@ -1,4 +1,4 @@
-package com.vinsguru.reactivekafkaplayground.sec12;
+package com.vinsguru.reactivekafkaplayground.sec12_error_handling;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;

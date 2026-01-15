@@ -1,4 +1,4 @@
-package com.vinsguru.reactivekafkaplayground.sec12;
+package com.vinsguru.reactivekafkaplayground.sec12_error_handling;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -44,6 +44,11 @@ public class KafkaConsumerV2 {
 
     }
 
+    /**
+     *
+     * here we process the kafka data and if error occurred than we retry 3 times and even after retry it failed
+     * than also acknowledging the data as doFinally.
+     */
     private static Mono<Void> process(ReceiverRecord<Object, Object> receiverRecord){
         return Mono.just(receiverRecord)
                 .doOnNext(r -> {
