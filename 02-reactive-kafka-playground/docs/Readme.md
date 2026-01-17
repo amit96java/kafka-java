@@ -60,3 +60,13 @@
     KafkaConsumerV3 : retry based on exception type, let's suppose database is down , then in this case we want it should retry until
     database is not up.
 
+## sec13 (dead letter topic)
+
+### lec 95
+
+    producer send the data to kafka broker but cosumer facing error while cosuming the data, than consumer
+    can send the data to dead letter topic and as a manual or scheduler can consumer the data from dlt than
+    acknowledge it and if this time again error occurred than don't acknowledge the data.
+
+## sec14 (poison pill message)
+
