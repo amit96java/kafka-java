@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: learn-kafka-stream
+  kafka:
+    bootstrap-servers: localhost:9092
+    streams:
+      application-id: order-count-app
+      properties:
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+    org.apache.kafka: WARN
+    org.apache.kafka.streams: INFO
+    com.amit.learn_kafka_stream: INFO   # your package
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+  file:
+    name: logs/kafka-stream-app.log
