@@ -43,7 +43,23 @@ public class MatchingProcessor implements Processor<String, String, String, Stri
     public void process(Record<String, String> record) {
         String userName = record.key();
         String orderName = record.value();
+        if(userName.equalsIgnoreCase("clear") && orderName.equalsIgnoreCase("state")) {
+            logger.info("clearing state stores...");
+            clearStateStores();
 
+        } else {
+            addRecordInUserListStateStore(userName, orderName);
+
+            // 🔥 update user count (String -> Long store)
+            addRecordInUserCountByOrderStateStore(userName);
+
+            addRecordInUserNameFilterStateStore(record, userName, orderName);
+        }
+
+
+    }
+
+    private void addRecordInUserListStateStore(String userName, String orderName) {
         List<UserOrderDto> batch = userListStateStore.get("batch");
         if (batch == null) {
             logger.info("creating new batch list");
@@ -51,14 +67,17 @@ public class MatchingProcessor implements Processor<String, String, String, Stri
         }
         batch.add(new UserOrderDto(userName, orderName));
         userListStateStore.put("batch", batch);
+    }
 
-        // 🔥 update user count (String -> Long store)
+    private void addRecordInUserCountByOrderStateStore(String userName) {
         Long currentCount = userCountStateStore.get(userName);
         if (currentCount == null) {
             currentCount = 0L;
         }
         userCountStateStore.put(userName, currentCount + 1);
+    }
 
+    private void addRecordInUserNameFilterStateStore(Record<String, String> record, String userName, String orderName) {
         if (userName.startsWith("a")) {
             logger.info("adding in state store " + userName);
             userNameFilterStateStore.put(userName + "dlt", orderName);
@@ -66,11 +85,18 @@ public class MatchingProcessor implements Processor<String, String, String, Stri
             logger.info("forwarding to another topic " + userName);
             context.forward(new Record<>(userName + ":forward", orderName, record.timestamp()));
         }
+    }
 
+    private void clearStateStores() {
+        userNameFilterStateStore.all().forEachRemaining(entry -> userNameFilterStateStore.delete(entry.key));
+        userCountStateStore.all().forEachRemaining(entry -> userCountStateStore.delete(entry.key));
+        userListStateStore.all().forEachRemaining(entry -> userListStateStore.delete(entry.key));
     }
 
     @Override
     public void close() {
         Processor.super.close();
     }
+
+
 }
