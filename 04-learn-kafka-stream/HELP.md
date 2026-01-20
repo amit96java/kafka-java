@@ -1,3 +1,13 @@
+# Understanding for beginner
+
+## run kafka container
+cd C:\Guru\Aprojects\Kafka\udemy\kafka-java\01-workspace\01-kafka-setup\compose
+docker-compose up 
+
+## create topic
+
+if producer produce clear:state message than consumer will clear its all state, logic in MatchingProcessor.java
+
 # commands
 
 ## kafka bash
